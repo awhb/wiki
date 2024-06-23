@@ -1,6 +1,5 @@
 django
 markdown2
-numpy
 Pygments
 requests
 SQLAlchemy
