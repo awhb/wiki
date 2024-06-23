@@ -1,0 +1,22 @@
+databases:
+  - name: wikidb
+    plan: free
+    databaseName: wiki
+    user: wiki
+
+services:
+  - type: web
+    plan: free
+    name: wiki
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "python -m gunicorn wiki.asgi:application -k uvicorn.workers.UvicornWorker"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: wikidb
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
